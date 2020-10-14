@@ -7,4 +7,5 @@ use App\Http\Controllers\AuthorController;
 
 
 Route::apiResource('/author', AuthorController::class);
+Route::get('/posts/author/{id}', [AuthorController::class, 'authorPosts']);
 

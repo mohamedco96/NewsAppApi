@@ -96,68 +96,18 @@ class AuthorController extends Controller
         return "Error while deleting";
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @return \Illuminate\Http\Response
-     */
-    public function addToFavorites(Request $request)
-    {
-        $userInfo = auth('api')->user();
-        if ($userInfo !== null) {
-            $Author = Author::find($request->id);
-            $Author->favorites()->create([
-                'user_id' => $userInfo->id,
-            ]);
-            return "Author is added for user:" . $userInfo->social_id;
-        } else {
-            return "User is not logged in.";
-        }
-    }
 
     /**
      * Remove the specified resource from storage.
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function removeFromFavorites(Request $request)
+    public function authorPosts($id)
     {
-        $userInfo = auth('api')->user();
-        if ($userInfo !== null) {
-            $Author = DB::table('favorites')
-                ->where('favorites.user_id', '=', $userInfo->id)
-                ->where('favorites.favoritable_id', '=', $request->id)
-                ->where('favorites.favoritable_type', '=', 'App\Models\Author')
-                ->delete();
-            // return new AuthorResource($Author);
-            return "Author is delete from favorites for user:" . $userInfo->social_id;
-        } else {
-            return "User is not logged in.";
-        }
-    }
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     * @return \Illuminate\Http\Response
-     */
-    public function AuthorFillter(Request $request)
-    {
-
-        $query = DB::table('Authors')
-            ->join('Authors_catagory_pivots', 'Authors.id', '=', 'Authors_catagory_pivots.Author_id')
-            ->join('Author_tag_pivots', 'Authors.id', '=', 'Author_tag_pivots.Author_id');
-        $result = $query->get();
-        /****************************************************************************************************************/
-        if ($request->category != null) {
-            $query->where('Authors_catagory_pivots.Authors_catagory_id', '=', $request->category);
-            $result = $query->get();
-        }
-
-        if ($request->tag != null) {
-            $query->where('Author_tag_pivots.Author_tag_id', '=', $request->tag);
-            $result = $query->get();
-        }
-        /****************************************************************************************************************/
-        return new AuthorResource($result);
+        $query = DB::table('posts')
+            ->join('authors', 'posts.author', '=', 'authors.id')
+            ->where('posts.author', '=', $id)
+            ->get();
+        return new AuthorResource($query);
     }
 }
