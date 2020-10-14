@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Author extends Model
+class Category extends Model
 {
     use HasFactory;
       /**
@@ -13,5 +13,5 @@ class Author extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'avatar'];
+    protected $fillable = ['tittle'];
 }
