@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Author;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AuthorFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Author::class;
+    protected $model = Comment::class;
 
     /**
      * Define the model's default state.
@@ -20,10 +20,10 @@ class AuthorFactory extends Factory
      * @return array
      */
     public function definition()
-    {       
+    {
         return [
-            'name' => $this->faker->userName,
-            'avatar' => $this->faker->imageUrl($width = 640, $height = 480, 'people', true, 'Faker'),
+            'author' => $this->faker->numberBetween(1,30),
+            'content'=> $this->faker->paragraph,
         ];
     }
 }

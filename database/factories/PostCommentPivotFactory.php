@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Author;
+use App\Models\PostCommentPivot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AuthorFactory extends Factory
+class PostCommentPivotFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Author::class;
+    protected $model = PostCommentPivot::class;
 
     /**
      * Define the model's default state.
@@ -20,10 +20,10 @@ class AuthorFactory extends Factory
      * @return array
      */
     public function definition()
-    {       
+    {
         return [
-            'name' => $this->faker->userName,
-            'avatar' => $this->faker->imageUrl($width = 640, $height = 480, 'people', true, 'Faker'),
+            'comment_id' => $this->faker->numberBetween(1,50),
+            'post_id' => $this->faker->numberBetween(1,100),
         ];
     }
 }
