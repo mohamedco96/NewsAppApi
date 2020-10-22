@@ -32,15 +32,17 @@ class UserController extends Controller
             $data['password'] = bcrypt($request->password);
             $user = User::create($data);
             $accessToken = $user->createToken('authToken')->accessToken;
-            return response(['message' => 'Register successfully','user' => $user, 'access_token' => $accessToken]);
+            $user->access_token = $accessToken;
+            $user->update();
+            return response(['message' => 'Register successfully', 'user' => $user, 'access_token' => $accessToken]);
         }
 
         //login
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        // $accessToken = auth()->user()->createToken('authToken')->accessToken;
         $user = User::find(auth()->user()->id);
-        // $user->status = 'online';
-        // $user->update();
-        return response(['message' => 'Login successfully','user' => auth()->user(), 'access_token' => $accessToken]);
+        //$user->status = 'online';
+       // $user->update();
+        return response(['message' => 'Login successfully', 'user' => auth()->user(), 'access_token' => $user->access_token]);
     }
 
     public function logout(Request $request)
@@ -155,5 +157,4 @@ class UserController extends Controller
         return response(['message' => 'Error while deleting']);
         // return "Error while deleting";
     }
-
-}
+}// TODO: TEST
